@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 //#include "cal.h"
-#include "matrix.hpp"
+#include "matrix.h"
 
 
 //���͂̍s�񐔂����������`�F�b�N����

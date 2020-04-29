@@ -10,7 +10,7 @@
 //#include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "KalmanFilter.hpp"
+#include "KalmanFilter.h"
 
 
 #define def_use_SqrMatrix_R//!<�������t�B���^�̎g�p
