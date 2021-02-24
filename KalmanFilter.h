@@ -1,6 +1,9 @@
+//Copyright © 2011- Kohei-tofu. All rights reserved.
+//koheitech001 [at] gmail.com
+
 #pragma once
 
-#include "matrix.h"
+#include "./numeric/matrix.h"
 
 typedef struct stKalmanFilter 
 {

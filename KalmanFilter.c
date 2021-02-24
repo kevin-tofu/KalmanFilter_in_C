@@ -1,30 +1,18 @@
-/// <summary>
-/// class : KalmanFilter
-/// name  : �n� �_��
-/// Date  : 2010/12/14
-/// 
-/// ����
-/// 2011/03/01 : KalmanSmoothing����
-///
-/// </summary>
+//Copyright © 2011- Kohei-tofu. All rights reserved.
+//koheitech001 [at] gmail.com
+
 //#include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "KalmanFilter.h"
 
+// Computing options
+#define def_use_SqrMatrix_R//!< use sqrt matrix
+//#define def_useUDTrans//!<use UD Decomposition filter
 
-#define def_use_SqrMatrix_R//!<�������t�B���^�̎g�p
-
-//#define def_useUDTrans//!<UD�������g�p�����J���}���t�B���^
-
-//Smoothing�ɒ��ӁB
-//y,H,R���ϊ������
-
-//�o�͊Ď�(���ۂɂ͕K�v�Ȃ��j
-//#define def_OutputCheck
 
 ///
-///�֐���`_KalmanFilter
+/// KalmanFilter related functions
 ///
 _stKalmanFilter* fKalmanFilter_New(int measure, int state);
 int fKalmanFilter_Initialize(_stKalmanFilter* This);
@@ -37,7 +25,7 @@ int fKalmanFilter_PriorEstimate(_stKalmanFilter* This);
 
 
 /*!
-�J���}���t�B���^�̈�m��
+Allocate computation space
 @param    
 @return   
 @note     
@@ -70,31 +58,29 @@ _stKalmanFilter* fKalmanFilter_New(int measure, int state)
 }
 
 /*!
-������
+Initailize values on matrix 
 @param    
 @return   
 @note     
 */
 int fKalmanFilter_Initialize(_stKalmanFilter* This)
 {
-	int lErrorCounter = 0;
+	int count_error = 0;
 	
-	//�Ȃ��Ă��悢�B
-	//
-	//lErrorCounter += fMat_Zero(This->oCovQ);
-	lErrorCounter += fMat_UnitMatrix(This->oCovQ);
-	lErrorCounter += fMat_UnitMatrix(This->oG);
-	lErrorCounter += fMat_UnitMatrix(This->oErrCov_pre);
-	lErrorCounter += fMat_UnitMatrix(This->oH);
-	lErrorCounter += fMat_UnitMatrix(This->oF);
-	lErrorCounter += fMat_UnitMatrix(This->oErrCov_cor);
+	//count_error += fMat_Zero(This->oCovQ);
+	count_error += fMat_UnitMatrix(This->oCovQ);
+	count_error += fMat_UnitMatrix(This->oG);
+	count_error += fMat_UnitMatrix(This->oErrCov_pre);
+	count_error += fMat_UnitMatrix(This->oH);
+	count_error += fMat_UnitMatrix(This->oF);
+	count_error += fMat_UnitMatrix(This->oErrCov_cor);
 	
-	return lErrorCounter;
+	return count_error;
 }
 
 
 /*!
-�J���}���t�B���^�֘A�̈�폜
+relase memories
 @param
 @return
 @note
@@ -122,42 +108,40 @@ int fKalmanFilter_Delete(_stKalmanFilter* This)
 
 
 /*!
-�J���}���t�B���^
+update kalman filter at one step
 @param
 @return
 @note
 */
 int fKalmanFilter_Run(_stKalmanFilter* This)
 {
-	int lErrorCounter = 0;
+	int count_error = 0;
 
-	lErrorCounter += fKalmanFilter_MeasurementUpdate(This);
+	count_error += fKalmanFilter_MeasurementUpdate(This);
 
-	lErrorCounter += fKalmanFilter_TimeUpdate(This);
+	count_error += fKalmanFilter_TimeUpdate(This);
 
-	return lErrorCounter;
+	return count_error;
 }
 
 
 
 /*!
-�ϑ��X�V    correcter
+measurement update
 @param    
 @return   
-@note	    _stKalmanFilter���Ŋm�ۂ��Ă���s��̒l���󂷂��ǂ������l�����ׂ���    
-@note       �󂹂Ώ����������Ȃ邪�A�l��ێ��ł��Ȃ��B
+@note	  There are 2 options
+@note     UD transformation and Sqrt transformation  
 */
 int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 {
-	int lErrorCounter = 0;
+	int count_error = 0;
 
 	int measure = This->vMeasureLengh;
 	int state = This->vStateLength;
 
 
 #ifndef def_useUDTrans
-
-	//�ϑ�����J��Ԃ����Z���s��
 
 	//
 	//kalman gain
@@ -232,19 +216,19 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 
 	/*
 	//K(y(i) - H(i)x^)
-	lErrorCounter += fMat_Copy(k_d, This->oKalmanGain_cor);
+	count_error += fMat_Copy(k_d, This->oKalmanGain_cor);
 
 	fMat_Multiplier2(k_d, alpha2);
 
 	//x^ = x- + K()
-	lErrorCounter += fMat_Add(This->oState_cor, This->oState_pre, k_d);
+	count_error += fMat_Add(This->oState_cor, This->oState_pre, k_d);
 	
 	//
 	//P^ = P- -Kft
 	//
-	lErrorCounter += fMat_MltTrans(k_f, This->oKalmanGain_cor, f);
+	count_error += fMat_MltTrans(k_f, This->oKalmanGain_cor, f);
 
-	lErrorCounter += fMat_Sub(This->oErrCov_cor, This->oErrCov_pre, k_f);
+	count_error += fMat_Sub(This->oErrCov_cor, This->oErrCov_pre, k_f);
 
 	*/
 
@@ -290,12 +274,8 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 	//_stMatrix* lSqrMatR = fMat_New(measure,measure);
 	_stMatrix* lSqrMatR_inv = fMat_New(measure,measure);
 
-	//R�����Ȃ��悤�ɒl���R�s�[
-	//���Ȃ��悤�ȏ���������邩�ǂ����͏�̏�������
 	fMat_Copy(lRCopy, This->oCovR);
 
-	//�������s��
-	//����Input�͉���
 	//R^1/2
 	fMat_CholeskyDecomposition(lSqrMatR_inv, lRCopy);
 	//fMat_CholeskyDecomposition(lSqrMatR_inv, This->oCovR);
@@ -305,40 +285,38 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 	fMat_InverseMatrix_Gauss2(lSqrMatR_inv);//!< Dynamically allocated
 
 	//H:=R^-1/2 H
-	lErrorCounter += fMat_Mlt(lH, lSqrMatR_inv, This->oH);
+	count_error += fMat_Mlt(lH, lSqrMatR_inv, This->oH);
 #else
 	fMat_Copy(lH, This->oH);
 #endif
 
 	fMat_Copy(lP_pre, This->oErrCov_pre);
 
-	//UD���� - P_pre
-	//����This->oErrCov_pre������lP_pre�͉���
-	//lErrorCounter += fMat_UD_Degradation(U_cor, D_cor, This->oErrCov_pre);
-	lErrorCounter += fMat_UD_Degradation(U_cor, D_cor, lP_pre);
+	//count_error += fMat_UD_Degradation(U_cor, D_cor, This->oErrCov_pre);
+	count_error += fMat_UD_Degradation(U_cor, D_cor, lP_pre);
 
-	lErrorCounter += fMat_Mlt(F, lH, U_cor);
+	count_error += fMat_Mlt(F, lH, U_cor);
 
 	//F = Ft = (HU)t sm
-	lErrorCounter += fMat_Transpose2(F);//!< Dynamically allocated
+	count_error += fMat_Transpose2(F);//!< Dynamically allocated
 	
 	for(int i = 0; i < measure; i++)
 	{	
 		fMat_Zero(k1);
 		//fMat_Zero(U_cor);
 
-		//f,g���ω�(H(i))
+		//f,g(H(i))
 
 		//
 		//step1
 		//
 
 		//f = colout(F) s1
-		lErrorCounter += fMat_Copy_colVector(f, 0, F, i);
-		//lErrorCounter += fMat_Copy_rowVector_TO_column(f, 0, F, i);
+		count_error += fMat_Copy_colVector(f, 0, F, i);
+		//count_error += fMat_Copy_rowVector_TO_column(f, 0, F, i);
 
 		//g s1 = ss * s1
-		lErrorCounter += fMat_Mlt(g, D_cor, f);
+		count_error += fMat_Mlt(g, D_cor, f);
 #ifdef def_use_SqrMatrix_R
 		alpha = 1 + fMat(f, 0, 0) * fMat(g, 0, 0);
 #else
@@ -354,7 +332,7 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 #endif
 		//fMat(U_cor, 0, 0) = 1;
 
-		//lErrorCounter += fMat_Copy_colVector(U_cor, 0, u, 0);
+		//count_error += fMat_Copy_colVector(U_cor, 0, u, 0);
 
 		//
 		//step2
@@ -373,18 +351,18 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 			//
 			//u_cor(j) = u_pre(j) - ��(j) * K(j-1)
 			//
-			lErrorCounter += fMat_Multiplier_colVector(gu, 0, U_cor, j, fMat(g, j, 0));
+			count_error += fMat_Multiplier_colVector(gu, 0, U_cor, j, fMat(g, j, 0));
 
-			lErrorCounter += fMat_Multiplier_colVector(u, 0, k1, 0, -lambda);
-			//lErrorCounter += fMat_Multiplier_colVector(U_cor, j, k1, 0, -lambda);
+			count_error += fMat_Multiplier_colVector(u, 0, k1, 0, -lambda);
+			//count_error += fMat_Multiplier_colVector(U_cor, j, k1, 0, -lambda);
 		
-			lErrorCounter += fMat_Add2_colVector(U_cor, j, u, 0);
+			count_error += fMat_Add2_colVector(U_cor, j, u, 0);
 
 			//
 			//K(j) = K(j-1) + g(j) * u_pre(j)
 			//
 			//Kj = Kj-1 + gu
-			lErrorCounter += fMat_Add2_colVector(k1, 0, gu, 0);
+			count_error += fMat_Add2_colVector(k1, 0, gu, 0);
 			//fMat_Add2_colVector(k1, 0, U_pre, j);
 
 			alpha = alpha_;
@@ -393,30 +371,17 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 		//
 		//step3
 		//
-		lErrorCounter += fMat_Multiplier_colVector(This->oKalmanGain_cor, i, k1, 0, (1 / alpha_));
+		count_error += fMat_Multiplier_colVector(This->oKalmanGain_cor, i, k1, 0, (1 / alpha_));
 	}
 	//
 	//P = U D Ut
 	//
 
-	//UD ���v�Z�p���ʂ�D_pre�Ɋi�[
-	lErrorCounter += fMat_Mlt(This->oErrCov_cor, U_cor, D_cor);
 
 	//P = (UD)Ut
-	lErrorCounter += fMat_MltTrans2(This->oErrCov_cor, U_cor);//!< Dynamically allocated
+	count_error += fMat_MltTrans2(This->oErrCov_cor, U_cor);//!< Dynamically allocated
 
-	//lErrorCounter += fMat_Check_SymmetricMatrix(This->oErrCov_cor);
-
-/*
-//�ǂ��炪�ǂ����͔���
-//���Ղ��͏ゾ���A���̕����̈�m�ۂ��Ȃ��Ԃ�y������
-
-	//UD ���v�Z�p���ʂ�D_pre�Ɋi�[
-	lErrorCounter += fMat_Mlt(D_pre, U_cor, D_cor);
-
-	//P = (UD)Ut
-	lErrorCounter += fMat_MltTrans(This->oErrCov_cor, D_pre, U_cor);
-*/
+	//count_error += fMat_Check_SymmetricMatrix(This->oErrCov_cor);
 
 	fMat_Delete(F);
 	fMat_Delete(f);
@@ -440,7 +405,7 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 	//y
 #ifdef def_use_SqrMatrix_R
 	//y:=R^(-1/2) y
-	lErrorCounter += fMat_Mlt(lMat_m1_1, lSqrMatR_inv, This->oMeasure);
+	count_error += fMat_Mlt(lMat_m1_1, lSqrMatR_inv, This->oMeasure);
 
 #else
 	for(int i = 0; i < measure; i++)
@@ -451,17 +416,17 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 #endif
 
 	//Hx m1 = ms * s1
-	lErrorCounter += fMat_Mlt(lMat_m1_2, lH, This->oState_pre);
+	count_error += fMat_Mlt(lMat_m1_2, lH, This->oState_pre);
 
 	//(z - Hx) m1
-	lErrorCounter += fMat_Sub2(lMat_m1_1, lMat_m1_2);
+	count_error += fMat_Sub2(lMat_m1_1, lMat_m1_2);
 
 	//K(z-Hx) s1 = sm * m1
-	lErrorCounter += fMat_Mlt(lMat_s1_1, This->oKalmanGain_cor, lMat_m1_1);
+	count_error += fMat_Mlt(lMat_s1_1, This->oKalmanGain_cor, lMat_m1_1);
 
 	//estimate
 	//x^ = x- + K(z-Hx)
-	lErrorCounter += fMat_Add(This->oState_cor, This->oState_pre, lMat_s1_1);
+	count_error += fMat_Add(This->oState_cor, This->oState_pre, lMat_s1_1);
 
 
 	fMat_Delete(lMat_m1_1);
@@ -476,52 +441,29 @@ int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This)
 
 #endif//#ifndef def_useUDTrans
 
-	/*
-	//�Ώې��̃`�F�b�N
-	if(fMat_Check_SymmetricMatrix(This->oErrCov_cor) > 0)
-	{
-		lErrorCounter++;
-	}
-	*/
-
-	return lErrorCounter;
+	return count_error;
 }
 
 
 /*!
-�ϑ��X�V correcter
-@param    
-@return   
-@note     �ϑ��̓���ꂽ���������ϑ��X�V���s��
-*/
-int fKalmanFilter_MeasurementUpdate_select(_stKalmanFilter* This)
-{
-	int lErrorCounter = 0;
-
-	return lErrorCounter;
-}
-
-
-/*!
-���ԍX�V predictor
+Time update
 @param    
 @return   
 @note     
 */
 int fKalmanFilter_TimeUpdate(_stKalmanFilter* This)
 {
-	int lErrorCounter = 0;
+	int count_error = 0;
 	//int measure = This->vMeasureLengh;
 	int state = This->vStateLength;
 
-//����UD���ԍX�V�A���S���Y�������������ق����ǂ�����
 #ifndef def_useUDTrans
 #else
 #endif
 	//
 	//x- = Fx^
 	//
-	lErrorCounter += fMat_Mlt(This->oState_pre, This->oF, This->oState_cor);
+	count_error += fMat_Mlt(This->oState_pre, This->oF, This->oState_cor);
 
 
 	//**
@@ -531,42 +473,41 @@ int fKalmanFilter_TimeUpdate(_stKalmanFilter* This)
 	_stMatrix* lMat_ss_1= fMat_New(state,state);//_ms
 
 	//FP
-	lErrorCounter += fMat_Mlt(This->oErrCov_pre, This->oF, This->oErrCov_cor);
+	count_error += fMat_Mlt(This->oErrCov_pre, This->oF, This->oErrCov_cor);
 
 	//P = (FP)Ft
-	lErrorCounter += fMat_MltTrans2(This->oErrCov_pre, This->oF);//!< Dynamically allocated and rel
+	count_error += fMat_MltTrans2(This->oErrCov_pre, This->oF);//!< Dynamically allocated and rel
 
 
 	//GQ
-	lErrorCounter += fMat_Mlt(lMat_ss_1, This->oG, This->oCovQ);
+	count_error += fMat_Mlt(lMat_ss_1, This->oG, This->oCovQ);
 
 	//GQGt
-	lErrorCounter += fMat_MltTrans2(lMat_ss_1, This->oG);//!< Dynamically allocated and rel
+	count_error += fMat_MltTrans2(lMat_ss_1, This->oG);//!< Dynamically allocated and rel
 
 	//P- = APAt + GQGt 
-	lErrorCounter += fMat_Add2(This->oErrCov_pre, lMat_ss_1);
+	count_error += fMat_Add2(This->oErrCov_pre, lMat_ss_1);
 	
 	fMat_Delete(lMat_ss_1);
 
-	return lErrorCounter;
+	return count_error;
 }
 
 /*!
-���O����l�̍쐬(���ԍX�V)
 @param    
 @return   
 @note     x- = Fx^
 */
 int fKalmanFilter_PriorEstimate(_stKalmanFilter* This)
 {
-	int lErrorCounter = 0;
+	int count_error = 0;
 
 	//
 	//x- = Fx^
 	//
-	lErrorCounter += fMat_Mlt(This->oState_pre, This->oF, This->oState_cor);
+	count_error += fMat_Mlt(This->oState_pre, This->oF, This->oState_cor);
 
-	return lErrorCounter;
+	return count_error;
 }
 
 

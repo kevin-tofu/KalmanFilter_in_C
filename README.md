@@ -11,3 +11,13 @@ A simple and accurate Kalman filter implementation.
 
 Therefore,  
 it is possible to deal with operations even on a weak CPU like embedded system environment.  
+
+
+# Teory
+## Normal form Kalman Filter
+
+```math
+X ^{t+1}_{4} = 
+X _{t+1/t} = F _{t}
+```
+
