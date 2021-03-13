@@ -13,10 +13,14 @@
 _stKalmanFilter* fKalmanFilter_New(int measure, int state);
 int fKalmanFilter_Initialize(_stKalmanFilter* This);
 int fKalmanFilter_Delete(_stKalmanFilter* This);
-int fKalman_KalmanFilter(_stKalmanFilter* This);
-int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This);
+int fKalmanFilter_Run(_stKalmanFilter* This);
+
 int fKalmanFilter_TimeUpdate(_stKalmanFilter* This);
 int fKalmanFilter_PriorEstimate(_stKalmanFilter* This);
+
+int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This);
+int fKalmanFilter_MeasurementUpdate_UD(_stKalmanFilter* This);
+int fKalmanFilter_MeasurementUpdate_SQ(_stKalmanFilter* This);
 
 
 
@@ -277,7 +281,7 @@ measurement update
 @return   
 @note     Measurement updat using UD transformation
 */
-int fKalmanFilter_MeasurementUpdate_UDTrans(_stKalmanFilter* This)
+int fKalmanFilter_MeasurementUpdate_UD(_stKalmanFilter* This)
 {
 	int count_error = 0;
 
@@ -450,8 +454,6 @@ int fKalmanFilter_MeasurementUpdate_UDTrans(_stKalmanFilter* This)
 }
 
 
-
-
 /*!
 measurement update
 @param    
@@ -459,7 +461,7 @@ measurement update
 @note	  There are 2 options
 @note     UD transformation and Sqrt transformation  
 */
-int fKalmanFilter_MeasurementUpdate_SqrTrans(_stKalmanFilter* This)
+int fKalmanFilter_MeasurementUpdate_SQ(_stKalmanFilter* This)
 {
 	int count_error = 0;
 

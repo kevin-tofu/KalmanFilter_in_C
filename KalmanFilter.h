@@ -28,7 +28,9 @@ typedef struct stKalmanFilter
 extern _stKalmanFilter* fKalmanFilter_New(int measure, int state);
 extern int fKalmanFilter_Initialize(_stKalmanFilter* This);
 extern int fKalmanFilter_Delete(_stKalmanFilter* This);
-extern int fKalman_KalmanFilter(_stKalmanFilter* This);
-extern int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This);
+extern int fKalmanFilter_Run(_stKalmanFilter* This);
 extern int fKalmanFilter_TimeUpdate(_stKalmanFilter* This);
 extern int fKalmanFilter_PriorEstimate(_stKalmanFilter* This);
+extern int fKalmanFilter_MeasurementUpdate_UD(_stKalmanFilter* This);
+extern int fKalmanFilter_MeasurementUpdate_SQ(_stKalmanFilter* This);
+extern int fKalmanFilter_MeasurementUpdate(_stKalmanFilter* This);
