@@ -2,9 +2,9 @@
 
 A simple and accurate Kalman filter implementation.  
 
-
+## Features
 1. It works stably even for float16 matrices.  
- Because this implementation uses sqrt decomposition.  
+ Because this implementation uses UD-decomposition.  
   
 2. It does NOT depend on the other external library,  
  only using orignal matrix operation library.  
@@ -13,13 +13,12 @@ Therefore,
 it is possible to deal with operations even on a weak CPU like embedded system environment.  
 
 
-## introduce it to environment.
-
+## Introduce to environment.
 ```
 git clone --recursive [repository]
 ```
 
-## Teory
+## Theory
 ### Normal form Kalman Filter
 
 ```math
@@ -33,7 +32,7 @@ $$ x_{t+1/t} = F_{t} x_{t}
 
 ## Functions and explanations.
 
-### functions
+### Functions
 |Function name|Explanations|Arguments|
 |:---|:---|:---|
 |fKalmanFilter_New|dynamically allocate structure data on memory for computing kalmanfilter process, and initialize thoes values.|int, int : dimention of state and measurement|
@@ -45,7 +44,7 @@ $$ x_{t+1/t} = F_{t} x_{t}
 |fKalmanFilter_MeasurementUpdate_UD| Execute measurement update process using UD-decomposition <br> therefore this process doesn't have much numeric error, you can compute accurately even if it is float16.|_stKalmanFilter*|
 |fKalmanFilter_MeasurementUpdate_SQ|Execute measurement update process using Square-decomposition <br> therefore this process doesn't have much numeric error, you can compute accurately. but numeric error is bigger than the process that is using UD-decomposition.|_stKalmanFilter*|
 
-### data structure
+### Data structure
 this repository is only using "_stKalmanFilter" data structure.
 These table on below shows members in "_stKalmanFilter", and its explanations.
 You have to define measurement and time update model on this values for Kalman Filter modeling.
