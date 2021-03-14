@@ -21,13 +21,16 @@ git clone --recursive [repository]
 ## Theory
 ### Normal form Kalman Filter
 
-```math
-X ^{t+1}_{4} = 
-X _{t+1/t} = F _{t}
-```
+<img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/eq1.jpg" alt="eq1" title="formulation1">
 
-$$ x_{t+1/t} = F_{t} x_{t}
 
+<img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2">
+
+
+<img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1">
+
+
+<img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2">
 
 
 ## Functions and explanations.
