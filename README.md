@@ -45,7 +45,9 @@ The 1st equation is executed on measurement-update. The program predicts state v
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1">
 
  These matrices are Kalman Gain and Covariance matrix.  
-It shows how much uncertain information the values are.
+It shows how much uncertain information the values are.  
+
+  
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2">
 
 
