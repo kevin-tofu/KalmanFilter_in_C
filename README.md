@@ -28,28 +28,36 @@ The 2nd formula is the so-called measurement equation. it describes how we can o
 s state random variable that is hidden information we want to estimate, 
 m is measure random variable that we are able to get from the sensor, 
 w is the Gaussian white noise of which characteristic varies on each time step.
-
+  
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/eq1.jpg" alt="eq1" title="formulation1">
-
-if it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
+  
+If it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
 and no-correlation between them.  
   
-
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2">
-
   
  We can formulate Kalman filter based on the above formulation.  
 The 1st equation is executed on time-update. The program predicts state variables on the next time step based on the previous one.  
-The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information.
+The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information. 
+
 
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1">
 
- These matrices are Kalman Gain and Covariance matrix.  
-It shows how much uncertain information the values are.  
-
+ These matrices are Kalman Gain and Covariance matrix that is updated on time-update and measurement-update.  
+It shows how much uncertain information the values are. You are able to run program if you set the covariance matrix properly based on probability.  
   
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2">
 
+### Square root-Kalman Filter
+ Normal Kalman filter formulation caused problems in terms of numeric stability.  
+So, Potter et al suggested a square root filter ("Discrete square root filtering: A survey of current techniques") that improves the stability of Kalman filter computation.
+
+### UD decomposition-Kalman Filter
+ After Square root techniques were suggested, many kinds of research have arisen.
+One solution is "UD decomposition Filter".  
+ Compared with a normal Kalman filter, this method is numerically stable even with float 16 types. 
+ It is because the normal Kalman filter highly affected by the numeric round error.
+ Also, flops are the same as a normal Kalman filter.  Basically, UD decomposition method has advantage.
 
 ## Functions and explanations.
 
