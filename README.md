@@ -21,15 +21,31 @@ git clone --recursive [repository]
 ## Theory
 ### Normal form Kalman Filter
 
+The Kalman filter is formulated as follows.  
+The 1st formula is called a system equation that describes how system variable is going to transition, 
+The 2nd formula is the so-called measurement equation. it describes how we can observe the state of information.  
+
+s state random variable that is hidden information we want to estimate, 
+m is measure random variable that we are able to get from the sensor, 
+w is the Gaussian white noise of which characteristic varies on each time step.
+
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/eq1.jpg" alt="eq1" title="formulation1">
 
+if it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
+and no-correlation between them.  
+  
 
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2">
 
+  
+ We can formulate Kalman filter based on the above formulation.  
+The 1st equation is executed on time-update. The program predicts state variables on the next time step based on the previous one.  
+The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information.
 
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1">
 
-
+ These matrices are Kalman Gain and Covariance matrix.  
+It shows how much uncertain information the values are.
 <img src="https://github.com/kohei-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2">
 
 
