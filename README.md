@@ -1,6 +1,8 @@
 # Kalman Filter in C
 
-A simple and accurate Kalman filter implementation.  
+ A simple and accurate Kalman filter implementation.  
+And also, the square root filter and UD-decomposition filter involves.  
+It can make you realized that high accurate computation with a single precision floating point on time-step system modeling.  
 
 ## Features
 1. It works stably even for float16 matrices.  
