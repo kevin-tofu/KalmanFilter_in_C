@@ -34,18 +34,19 @@ The 2nd formula is the so-called measurement equation. it describes how we can o
 s state random variable that is hidden information we want to estimate,  
 m is measure random variable that we are able to get from the sensor,  
 w is the Gaussian white noise of which characteristic varies on each time step.
-  
-$$\begin{align}
+
+```math
+\begin{align}
     s_{t+1} = F_ts_{t} + Q_t w_t \\
     m_{t} = H_t m_{t} + v_t
-\end{align}$$  
+\end{align}
+```
 
 If it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
 and no-correlation between them.  
   
-<!-- <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2"> -->
-
-$$\begin{align}
+```math
+\begin{align}
     \mathbf{E}[
         \begin{pmatrix}
             w_t \\
@@ -59,7 +60,8 @@ $$\begin{align}
          \huge{Q_t}  \text{\huge{0}} \\
          \text{\huge{0}}  \huge{R_t}
     \end{pmatrix} {\delta}_{ts} \\
-\end{align}$$  
+\end{align}
+```
 
  We can formulate Kalman filter based on the above formulation.  
 The 1st equation is executed on time-update. The program predicts state variables on the next time step based on the previous one.  
@@ -75,11 +77,13 @@ The 1st equation is executed on measurement-update. The program predicts state v
  These matrices are Kalman Gain and Covariance matrix that is updated on time-update and measurement-update.  
 It shows how much uncertain information the values are. You are able to run program if you set the covariance matrix properly based on probability.  
 
-$$\begin{align}
+```math
+\begin{align}
     K_t = P_{t/t-1} H_t^T [H_t P_{t/t-1}Ht^T+Rt]^{-1} \\
     P_{t+1/t} = F_t P_{t/t} F_t^T + G_t Q_{t} G_t^T \\
     P_{t/t} = P_{t/t-1} - K_t H_t P_{t/t-1}
 \end{align}$$  
+```
 
 ### Square root-Kalman Filter
 
