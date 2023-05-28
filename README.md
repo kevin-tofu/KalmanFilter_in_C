@@ -31,12 +31,12 @@ The Kalman filter is formulated as follows.
 The 1st formula is called a system equation that describes how system variable is going to transition, 
 The 2nd formula is the so-called measurement equation. it describes how we can observe the state of information.  
 
-s state random variable that is hidden information we want to estimate, 
-m is measure random variable that we are able to get from the sensor, 
+s state random variable that is hidden information we want to estimate,  
+m is measure random variable that we are able to get from the sensor,  
 w is the Gaussian white noise of which characteristic varies on each time step.
   
 $$\begin{equation} s_{t+1} = F_ts_{t} + F_t w_t \end{equation}$$  
-$$\begin{equation} m_{t} = H_t m_{t} + v_t \end{equation}$$  
+$$\begin{equation2} m_{t} = H_t m_{t} + v_t \end{equation2} $$  
 
 If it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
 and no-correlation between them.  
