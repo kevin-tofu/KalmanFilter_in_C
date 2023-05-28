@@ -46,17 +46,19 @@ and no-correlation between them.
 <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2">
 
 $$\begin{align}
-    \mathbf{Cov}(\mathbf{X}) = \mathbf{E}[
+    \mathbf{E}[
         \begin{pmatrix}
             w_t \\
-            v_t  \\
+            v_t \\
         \end{pmatrix}
         \begin{pmatrix}
             w_t^T v_t^T
         \end{pmatrix}
-        =
-        []
-]
+    ] = \\
+    \begin{pmatrix}
+         Q_t \text{\huge{0}} \\
+         \text{\huge{0}} R_t
+    \end{pmatrix}
 \end{align}$$  
 
   
