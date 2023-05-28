@@ -58,17 +58,17 @@ $$\begin{align}
     \begin{pmatrix}
          \huge{Q_t}  \text{\huge{0}} \\
          \text{\huge{0}}  \huge{R_t}
-    \end{pmatrix} {\delta}_{ts}
+    \end{pmatrix} {\delta}_{ts} \\
 \end{align}$$  
 
  We can formulate Kalman filter based on the above formulation.  
 The 1st equation is executed on time-update. The program predicts state variables on the next time step based on the previous one.  
 The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information.  
 
-$\begin{align}
+$$\begin{align}
     \hat{s}_{t+1/t} = F_t \hat{s}_{t/t} \\
     \hat{s}_{t/t} = \hat{s}_{t/t-1} + K_t [m_t - H_t \hat{s}_{t/t-1}]
-\end{align}$  
+\end{align}$$  
 
  These matrices are Kalman Gain and Covariance matrix that is updated on time-update and measurement-update.  
 It shows how much uncertain information the values are. You are able to run program if you set the covariance matrix properly based on probability.  
