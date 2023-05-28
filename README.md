@@ -43,7 +43,7 @@ $$\begin{align}
 If it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
 and no-correlation between them.  
   
-<img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2">
+<!-- <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2"> -->
 
 $$\begin{align}
     \mathbf{E}[
@@ -54,11 +54,11 @@ $$\begin{align}
         \begin{pmatrix}
             w_t^T v_t^T
         \end{pmatrix}
-    ] = \\
+    ] =
     \begin{pmatrix}
-         Q_t \text{\huge{0}} \\
-         \text{\huge{0}} R_t
-    \end{pmatrix}
+         \huge{Q_t}  \text{\huge{0}} \\
+         \text{\huge{0}}  \huge{R_t}
+    \end{pmatrix} {\delta}_ts
 \end{align}$$  
 
   
