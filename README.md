@@ -5,6 +5,7 @@ And also, the square root filter and UD-decomposition filter involves.
 It can make you realized that high accurate computation with a single precision floating point on time-step system modeling.  
 
 ## Features
+
 1. It works stably even for float16 matrices.  
  Because this implementation uses UD-decomposition.  
   
@@ -15,9 +16,12 @@ Therefore,
 it is possible to deal with operations even on a weak CPU like embedded system environment.  
 
 
-## Introduce to environment.
+## Introduce to environment
+
 ```
+
 git clone --recursive [repository]
+
 ```
 
 ## Theory
@@ -32,7 +36,8 @@ m is measure random variable that we are able to get from the sensor,
 w is the Gaussian white noise of which characteristic varies on each time step.
   
 <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/eq1.jpg" alt="eq1" title="formulation1">
-  
+$$ s_{t+1} = F_ts_{t} + F_tw_t$$
+
 If it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
 and no-correlation between them.  
   
@@ -51,19 +56,22 @@ It shows how much uncertain information the values are. You are able to run prog
 <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2">
 
 ### Square root-Kalman Filter
+
  Normal Kalman filter formulation caused problems in terms of numeric stability.  
 So, Potter et al suggested a square root filter ("Discrete square root filtering: A survey of current techniques") that improves the stability of Kalman filter computation.
 
 ### UD decomposition-Kalman Filter
+
  After Square root techniques were suggested, many kinds of research have arisen.
 One solution is "UD decomposition Filter".  
  Compared with a normal Kalman filter, this method is numerically stable even with float 16 types. 
  It is because the normal Kalman filter highly affected by the numeric round error.
  Also, flops are the same as a normal Kalman filter.  Basically, UD decomposition method has advantage.
 
-## Functions and explanations.
+## Functions and explanations
 
 ### Functions
+
 |Function name|Explanations|Arguments|
 |:---|:---|:---|
 |fKalmanFilter_New|dynamically allocate structure data on memory for computing kalmanfilter process, and initialize thoes values.|int, int : dimention of state and measurement|
@@ -75,7 +83,9 @@ One solution is "UD decomposition Filter".
 |fKalmanFilter_MeasurementUpdate_UD| Execute measurement update process using UD-decomposition <br> therefore this process doesn't have much numeric error, you can compute accurately even if it is float16.|_stKalmanFilter*|
 |fKalmanFilter_MeasurementUpdate_SQ|Execute measurement update process using Square-decomposition <br> therefore this process doesn't have much numeric error, you can compute accurately. but numeric error is bigger than the process that is using UD-decomposition.|_stKalmanFilter*|
 
+
 ### Data structure
+
 this repository is only using "_stKalmanFilter" data structure.
 These table on below shows members in "_stKalmanFilter", and its explanations.
 You have to define measurement and time update model on this values for Kalman Filter modeling.
