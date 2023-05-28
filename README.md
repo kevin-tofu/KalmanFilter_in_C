@@ -58,21 +58,31 @@ $$\begin{align}
     \begin{pmatrix}
          \huge{Q_t}  \text{\huge{0}} \\
          \text{\huge{0}}  \huge{R_t}
-    \end{pmatrix} {\delta}_ts
+    \end{pmatrix} {\delta}_{ts}
 \end{align}$$  
 
-  
  We can formulate Kalman filter based on the above formulation.  
 The 1st equation is executed on time-update. The program predicts state variables on the next time step based on the previous one.  
-The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information. 
+The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information.  
 
 
-<img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1">
+<!-- <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1"> -->
+
+$$\begin{align}
+    \hat{s}_{t+1/t} = F_t \hat{s}_{t/t}
+    \hat{s}_{t/t} = \hat{s}_{t/t-1} + K_t [m_t - H_t \hat{s}_{t/t-1}]
+\end{align}$$  
 
  These matrices are Kalman Gain and Covariance matrix that is updated on time-update and measurement-update.  
 It shows how much uncertain information the values are. You are able to run program if you set the covariance matrix properly based on probability.  
   
-<img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2">
+<!-- <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2"> -->
+
+$$\begin{align}
+    K_t = P_{t/t-1} H_t^T [H_t P_{t/t-1}Ht^T+Rt]^{-1} \\
+    P_{t+1/t} = F_t P_{t/t} F_t^T + G_t Q_{t} G_t^T \\
+    P_{t/t} = P_{t/t-1} - K_t H_t P_{t/t-1}
+\end{align}$$  
 
 ### Square root-Kalman Filter
 
