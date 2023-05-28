@@ -46,7 +46,17 @@ and no-correlation between them.
 <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/eq2.jpg" alt="eq2" title="formulation2">
 
 $$\begin{align}
-    \mathbf{Cov}(\mathbf{X}) = \mathbf{E}[(\mathbf{X} - \mathbf{\mu})(\mathbf{X} - \mathbf{\mu})^T]
+    \mathbf{Cov}(\mathbf{X}) = \mathbf{E}[
+        \begin{pmatrix}
+            w_t \\
+            v_t  \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            w_t^T v_t^T
+        \end{pmatrix}
+        =
+        []
+]
 \end{align}$$  
 
   
