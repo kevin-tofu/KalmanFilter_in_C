@@ -65,18 +65,13 @@ $$\begin{align}
 The 1st equation is executed on time-update. The program predicts state variables on the next time step based on the previous one.  
 The 1st equation is executed on measurement-update. The program predicts state variables now. It corrects predicted variables based on measured information.  
 
-
-<!-- <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq1.jpg" alt="filter_eq1" title="filter_eq1"> -->
-
 $$\begin{align}
-    \hat{s}_{t+1/t} = F_t \hat{s}_{t/t}
+    \hat{s}_{t+1/t} = F_t \hat{s}_{t/t} \\
     \hat{s}_{t/t} = \hat{s}_{t/t-1} + K_t [m_t - H_t \hat{s}_{t/t-1}]
 \end{align}$$  
 
  These matrices are Kalman Gain and Covariance matrix that is updated on time-update and measurement-update.  
 It shows how much uncertain information the values are. You are able to run program if you set the covariance matrix properly based on probability.  
-  
-<!-- <img src="https://github.com/kevin-tofu/KalmanFilter_in_C/blob/master/img/filter_eq2.jpg" alt="filter_eq2" title="filter_eq2"> -->
 
 $$\begin{align}
     K_t = P_{t/t-1} H_t^T [H_t P_{t/t-1}Ht^T+Rt]^{-1} \\
