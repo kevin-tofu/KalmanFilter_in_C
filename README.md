@@ -35,8 +35,10 @@ s state random variable that is hidden information we want to estimate,
 m is measure random variable that we are able to get from the sensor,  
 w is the Gaussian white noise of which characteristic varies on each time step.
   
-$$\begin{equation} s_{t+1} = F_ts_{t} + F_t w_t \end{equation}$$  
-$$\begin{equation2} m_{t} = H_t m_{t} + v_t \end{equation2} $$  
+$$\begin{equation}
+    s_{t+1} = F_ts_{t} + Q_t w_t
+    m_{t} = H_t m_{t} + v_t
+\end{equation}$$  
 
 If it takes an expectation between w, v and itself, each co-variance matrix shows Q and R.
 and no-correlation between them.  
